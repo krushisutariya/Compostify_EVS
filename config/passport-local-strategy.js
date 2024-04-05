@@ -5,14 +5,9 @@ const User = require('../models/user');
 passport.use('local', new LocalStrategy({
     usernameField: 'email_username',
     passReqToCallback: true
-}, function (req, email_username, password, done) {
-    // First, check if it's a patient
-    User.findOne({ $or: [{ email: email_username }, { username: email_username }] }, function (err, user) {
-        if (err) {
-            console.log('Error encountered while finding the user:', err);
-            return done(err);
-        }
-
+}, async function (req, email_username, password, done) {
+    try {
+        let user = await User.findOne({ $or: [{ email: email_username }, { username: email_username }] });
         if (!user || user.password !== password) {
             console.log('Invalid Email/Username or Password');
             req.flash('error', 'Invalid Email/Username or Password');
@@ -22,7 +17,11 @@ passport.use('local', new LocalStrategy({
         // User authenticated, set req.user and return it
         req.user = user;
         return done(null, user);
-    });
+
+    } catch (error) {
+        console.log('Error encountered while finding the user:', err);
+        return done(error);
+    }
 }));
 
 // using authentication as middleware 
@@ -40,14 +39,14 @@ passport.serializeUser(function (user, done) {
 });
 
 // deserializing the user from the key in the cookies
-passport.deserializeUser(function (id, done) {
-    User.findById(id, function (err, user) {
-        if (err) {
-            console.log('Error in finding the user through id obtained by deserializing');
-            return done(err);
-        }
+passport.deserializeUser(async function (id, done) {
+    try {
+        let user = await User.findById(id);
         return done(null, user);
-    });
+    } catch (error) {
+        console.log('Error in finding the user through id obtained by deserializing');
+        return done(error);
+    }
 });
 
 // verifying if the user is authentic

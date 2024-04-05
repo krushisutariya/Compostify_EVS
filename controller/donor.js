@@ -3,9 +3,9 @@ const Points = require("../models/userPoints.js");
 const Agency = require("../models/compostAgency.js");
 const History = require("../models/history.js");
 const Transaction = require("../models/transaction.js");
-const { redeemReward } = require("../mailer/rewardRedeem.js");
-const { suppliesRequest } = require("../mailer/suppliesRequest.js");
-import dotenv from 'dotenv'
+const { redeemReward } = require("../mailers/rewardRedeem.js");
+const { suppliesRequest } = require("../mailers/suppliesRequest.js");
+const dotenv = require('dotenv');
 dotenv.config();
 
 // Controller to provide the list of all nearby composting agencies to the user
@@ -113,7 +113,7 @@ module.exports.reward_store = async (req, res) => {
 }
 
 // Reedem the reward and subtract the money
-module.exports.reedem_reward = async (req, res) => {
+module.exports.redeem_reward = async (req, res) => {
     try {
         const { reward } = req.body;
         let sender = await User.findOne({ username: req.body.username });

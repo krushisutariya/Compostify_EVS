@@ -24,13 +24,13 @@ module.exports.create_user = async (req, res) => {
         let user = await User.findOne({ $or: [{ email: req.body.email }, { username: req.body.username }] });
         if (user) {
             req.flash('error', 'User already exists!');
-            return res.redirect('/sign_in');
+            return res.redirect('/sign-in');
         }
         
         user = await User.create(req.body);
 
         req.flash('success', 'User Registered Successfully!');
-        return res.redirect('/sign_in');
+        return res.redirect('/sign-in');
 
     } catch (error) {
         console.log(error.message);
@@ -94,5 +94,12 @@ module.exports.logout = (req, res) => {
 module.exports.guidelines = (req, res) => {
     return res.render('guidelines', {
         title: 'Compostify | Guidelines'
+    });
+}
+
+// Render the About us page
+module.exports.about_us = (req, res) => {
+    return res.render('about_us', {
+        title: 'Compostify | About Us'
     });
 }

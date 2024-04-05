@@ -1,0 +1,57 @@
+<nav class="navbar navbar-dark navbar-expand-lg custom text-white autohide" id="s1"
+    style="background-color: rgb(6, 154, 45);">
+
+
+    <div class="container-fluid text-white">
+        <a class="navbar-brand" href="/" style="font-weight: bold; font-size: xx-large; font-family: Quicksand;">
+            <i class="fa-solid fa-seedling"></i>Compostify
+        </a>        
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active color-me" aria-current="page" href="/">Home</a>
+                </li>
+                <% if (locals.user) { %>
+                    <% if (locals.user.role==='donor'){%>
+                        <li class="nav-item">
+                            <a class="nav-link active color-me" href="/donor/nearby-agency/compostAgency">Nearby Agency</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active color-me" href="/donor/reward-store">Rewards</a>
+                        </li>
+                    <% } else if (locals.user.role==='compostAgency'){%>
+                        <li class="nav-item">
+                            <a class="nav-link active color-me" href="/agency">Supply Requests</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active color-me" href="/agency/history">Rewards Donated</a>
+                        </li>
+                    <% } else if (locals.user.role==='ngo'){%>
+                        <li class="nav-item">
+                            <a class="nav-link active color-me" href="/ngo/requests">Supply Requests</a>
+                        </li>
+                    <% } else {%>
+                        <li class="nav-item">
+                            <a class="nav-link active color-me" href="/about-us">About Us</a>
+                        </li>
+                    <% } %>
+                <% } %>
+            </ul>
+            <div class="container-end">
+                <% if (locals.user) { %>
+                    <a class="btn btn-outline-light" href="/profile">
+                        <%=user.username%>
+                    </a>
+                    <a class="btn btn-outline-light" href="/sign-out">LOGOUT</a>
+                <% } else { %>
+                    <a class="btn btn-outline-light" href="/sign-in">Login</a>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</nav>

@@ -39,11 +39,11 @@ app.use(session({
     saveUninitialized: false,
     resave: false,
     cookie: {
-        maxAge: (1000*5)
+        maxAge: (1000*60*20)
     },
     // storing the cookie-data in mongo db
     store: MongoStore.create({
-        mongoUrl: process.env.MONGO_URL || 'mongodb://127.0.0.1:27017/appointment-scheduler',
+        mongoUrl: process.env.MONGO_URL || 'mongodb://127.0.0.1:27017/d-compost',
         autoRemove: 'disabled'
     }, function(err){
         console.log(err || 'connect-mongo setup ok!!');

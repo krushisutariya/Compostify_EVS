@@ -4,7 +4,8 @@
   "description": "EVS Course Project SEM-4",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
   },
   "author": "Dharmesh-Kota",
   "license": "ISC",
@@ -22,7 +23,7 @@
     "express-https-redirect": "^1.0.0",
     "express-session": "^1.17.3",
     "mongo-connect": "^0.0.6",
-    "mongoose": "^6.0.0",
+    "mongoose": "^8.3.0",
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.3",
     "nodemon": "^3.0.1",

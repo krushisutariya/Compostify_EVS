@@ -1,0 +1,149 @@
+<div class="mt-1">&nbsp;</div>
+<div class="container mt-5  ">
+<div class="row d-flex justify-content-center">
+    <div class="col-md-4 text-center">
+        <div class="card my-4">
+            <img src="https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=yBeyba0hUkh14_jgv1OKqIH0CCSWU_4ckRkAoy2p73o=" class="img-fluid" alt="/images/ll.avif">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <%=user.name%>
+                </h5>
+                <h6 class="card-subtitle mb-2 text-muted">
+                    <%=user.email%>
+                </h6>
+                <h6 class="card-subtitle mb-2 text-muted">
+                    <%=user.contact%>
+                </h6>
+                <h6 class="card-subtitle mb-2 text-muted dark">
+                    <%=(user.role).toUpperCase()%>
+                </h6>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card my-4">
+            <div class="card-body">
+                <h2 class="card-title">Profile</h2>
+                <div class="my-4"></div>
+                <form id="timeForm" action="/update-profile" method="post">
+                    <div class="form-group my-2">
+                        <label for="name">Name:</label>
+                        <input class="form-control" type="text" id="name" name="name" value="<%=user.name%>"
+                            placeholder="Enter your name">
+                    </div>
+                    <div class="form-group my-2">
+                        <label for="username">Username:</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">@</span>
+                            <input class="form-control" type="text" id="username" name="username"
+                                value="<%=user.username%>" placeholder="Enter your username" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group my-2">
+                        <label for="email">Email:</label>
+                        <div class="input-group mb-3">
+                            <input class="form-control" type="email" id="email" name="email"
+                                value="<%=user.email%>" placeholder="Enter your email" aria-label="Username"
+                                aria-describedby="basic-addon1" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group my-2">
+                        <label for="email">Role:</label>
+                        <div class="input-group mb-3">
+                            <input class="form-control" type="text" id="role" name="role"
+                                value="<%=user.role%>" placeholder="Your role" aria-label="Username"
+                                aria-describedby="basic-addon1" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group my-2">
+                        <label for="contact">Contact:</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">+91</span>
+                            <input class="form-control" type="text" id="contact" name="contact"
+                                value="<%=user.contact%>" placeholder="Enter your contact number">
+                        </div>
+                        <p id="contact-feedback"></p>
+                    </div>
+                    <div class="form-group my-2">
+                        <label for="address">Address:</label>
+                        <textarea class="form-control" id="address" name="address" value="<%=user.address%>"
+                            rows="4" placeholder="Enter your text here..."><%=user.address%></textarea>
+                    </div>
+                    <div class="form-group my-2" id="searchBoxContainer">
+                        <label for="location">Location:</label>
+                        <input class="form-control" type="text" id="location" name="location"
+                        <% if(user.location !== null) {%> value="<%=user.location%>" <%}else{%> hidden <%}%> >
+                    </div>
+                    <div class="text-center">
+                        <button class="btn btn-success my-4" type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    </form>
+</div>
+
+
+<script src="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.1.2-public-preview.15/services/services-web.min.js"></script>
+<script src="https://api.tomtom.com/maps-sdk-for-web/cdn/plugins/SearchBox/3.1.3-public-preview.0/SearchBox-web.js"></script>    
+<script>
+    let apiKey = "";
+    // Fetch the API key
+    fetch('/getTomTomApiKey')
+        .then(response => response.json())
+        .then(data => {
+        apiKey = data.apiKey.trim();
+
+        // Initialize TomTom SearchBox after fetching the API key
+        initializeTomTomSearchBox(apiKey);
+    })
+    .catch(error => console.error('Error fetching API key:', error));
+
+    function initializeTomTomSearchBox(apiKey) {
+        var options = {
+            searchOptions: {
+                key: apiKey,
+                language: "en-GB",
+                limit: 5,
+                placeholder: "Search for Nearby Location"
+            },
+            autocompleteOptions: {
+                key: apiKey,
+                language: "en-GB",
+            }
+        };
+
+        // Set the container to the ID of the div
+        options.container = "#searchBoxContainer";
+
+        var ttSearchBox = new tt.plugins.SearchBox(tt.services, options);
+
+        ttSearchBox.on("tomtom.searchbox.resultselected", function (data) {
+            document.getElementById("location").value = String(data.data.result.position.lat) + ',' + String(data.data.result.position.lng);
+        });
+
+        var searchBoxHTML = ttSearchBox.getSearchBoxHTML();
+        document.getElementById("searchBoxContainer").appendChild(searchBoxHTML);
+    }
+</script>
+
+<script>
+const contactInput = document.getElementById('contact');
+const contactFeedback = document.getElementById('contact-feedback');
+
+contactInput.addEventListener('input', () => {
+    const contactString = contactInput.value;
+
+    const enteredContact = contactInput.value.trim();
+    const contactPattern = /^\d{10}$/;
+
+    if (contactPattern.test(enteredContact)) {
+        contactFeedback.textContent = 'Contact is valid.';
+        contactFeedback.style.color = 'green';
+    } else {
+        contactFeedback.textContent = 'Contact is Invalid.';
+        contactFeedback.style.color = 'red';
+    }
+});
+</script>

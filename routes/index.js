@@ -5,19 +5,25 @@ const controller = require('../controller/index');
 const dotenv = require('dotenv');
 dotenv.config();
 
-router.use('/donor', require('./donor'));
-router.use('/agency', require('./agency'));
-router.use('/ngo', require('./ngo'));
 router.get('/', controller.home);
-router.post('/signup', controller.signup);
-router.post('/create_user', controller.create_user);
-router.post('/create-session', controller.create_session);
+router.get('/sign-up', controller.sign_up);
+router.get('/sign-in', controller.sign_in);
+router.post('/create-user', controller.create_user);
+router.post('/create-session', passport.authenticate(
+    'local',
+    { failureRedirect: '/sign-in' }
+),controller.create_session);
 router.get('/profile', passport.checkAuthentication, controller.profile);
 router.post('/update-profile', passport.checkAuthentication, controller.update_profile);
-router.get('/guidelines', controller.guidelines)
+router.get('/guidelines', controller.guidelines);
+router.get('/about-us', controller.about_us)
 router.get('/getTomTomApiKey', passport.checkAuthentication, (req, res) => {
     return res.status(200).json({ message: 'Api key sent successfully!', apiKey: process.env.API_KEY });
 });
-router.post('/logout', controller.logout);
+router.get('/sign-out', controller.logout);
+
+router.use('/donor', require('./donor'));
+router.use('/agency', require('./agency'));
+router.use('/ngo', require('./ngo'));
 
 module.exports = router;
