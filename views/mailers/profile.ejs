@@ -1,0 +1,71 @@
+<script>
+    $(document).ready(function () {
+        $('#datepicker').datepicker();
+    });
+</script>
+<script>
+const contactInput = document.getElementById('contact');
+const contactFeedback = document.getElementById('contact-feedback');
+
+contactInput.addEventListener('input', () => {
+    const contactString = contactInput.value;
+
+    const enteredContact = contactInput.value.trim();
+    const contactPattern = /^\d{10}$/;
+
+    if (contactPattern.test(enteredContact)) {
+        contactFeedback.textContent = 'Contact is valid.';
+        contactFeedback.style.color = 'green';
+    } else {
+        contactFeedback.textContent = 'Contact is Invalid.';
+        contactFeedback.style.color = 'red';
+    }
+});
+</script>
+<script>
+// Get references to the input field and feedback element
+const WeightInput = document.getElementById('weight');
+const WeightFeedback = document.getElementById('weight-feedback');
+
+// Add an event listener to the input field for input events
+WeightInput.addEventListener('input', function () {
+    // Get the entered PIN code
+    const enteredPin = WeightInput.value.trim();
+
+    // Define a regular expression to match a 6-digit PIN code
+    const WeightPattern = /^\d{1,3}$/;
+
+    // Check if the entered PIN code matches the pattern
+    if (WeightPattern.test(enteredPin)) {
+        // Valid PIN code
+        WeightFeedback.textContent = 'Weight is valid.';
+        WeightFeedback.style.color = 'green';
+    } else {
+        // Invalid PIN code
+        WeightFeedback.textContent = 'Weight is Invalid.';
+        WeightFeedback.style.color = 'red';
+    }
+});
+</script>
+
+<script>
+const dobInput = document.getElementById("dob");
+const resultElement = document.getElementById("ageResult");
+
+dobInput.addEventListener("input", function () {
+    const dobValue = dobInput.value;
+    if (dobValue) {
+        const dobDate = new Date(dobValue);
+        const today = new Date();
+        const ageInMilliseconds = today - dobDate;
+
+        // Calculate age in years
+        const ageInYears = Math.floor(ageInMilliseconds / (365.25 * 24 * 60 * 60 * 1000));
+        resultElement.textContent = `Age: ${ageInYears} years`;
+    }
+    else {
+        resultElement.textContent = "Please enter a valid date of birth.";
+        return;
+    }
+});
+</script>
