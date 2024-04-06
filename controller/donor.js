@@ -52,7 +52,7 @@ module.exports.nearby_agency = async (req, res) => {
         }
     
         return res.render('nearby_agency', {
-            title: "Compsostify | Nearby Agency",
+            title: "Compostify | Nearby Agency",
             nearbyAgency: nearbyAgency
         });
 
@@ -102,7 +102,7 @@ module.exports.reward_store = async (req, res) => {
         }
 
         return res.render('reward_store', {
-            title: "Compsostify | Reward Store",
+            title: "Compostify | Reward Store",
             userRewards: userRewards
         });
 
