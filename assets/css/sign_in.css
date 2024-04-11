@@ -171,12 +171,12 @@ img {
 figure {
   margin: 0; }
 
-p {
+  .sign-in-main p {
   margin-bottom: 0px;
   font-size: 15px;
   color: #777; }
 
-h2 {
+  .sign-in-main h2 {
   line-height: 1.66;
   margin: 0;
   padding: 0;
@@ -185,22 +185,14 @@ h2 {
   font-family: Poppins;
   font-size: 36px; }
 
-.main {
+.sign-in-main {
   background: #f8f8f8;
-  padding: 150px 0; }
+  padding: 50px 0;}
 
-.clear {
+.sign-in-main .clear {
   clear: both; }
 
-body {
-  font-size: 13px;
-  line-height: 1.8;
-  color: #222;
-  background: #f8f8f8;
-  font-weight: 400;
-  font-family: Poppins; }
-
-.container {
+.sign-in-main .container {
   width: 900px;
   background: #fff;
   margin: 0 auto;
@@ -316,6 +308,22 @@ figure {
   overflow: hidden; }
   .form-group:last-child {
     margin-bottom: 0px; }
+
+    .form-group select {
+      width: 100%; /* Make the dropdown full width of its container */
+      padding: 8px; /* Add padding for better appearance */
+      border: none; /* Remove default border */
+      border-bottom: 1px solid #ccc; /* Add bottom border */
+      color: #7e7f81; /* Text color */
+      font-size: 16px; /* Font size */
+      border-radius: 4px; /* Optional: Add border-radius for rounded corners */
+      box-sizing: border-box; /* Ensure padding and border are included in width */
+  }
+
+  /* Style the options in the dropdown */
+  .form-group select option {
+      padding: 8px; /* Add padding for better appearance */
+  }
 
 input {
   width: 100%;
