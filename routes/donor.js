@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const donorController = require('../controller/donor');
+const cors = require('cors');
+router.use(cors());
 
 router.get('/nearby-agency/:role', passport.checkDonor, donorController.nearby_agency);
 router.get('/reward-store', passport.checkDonor, donorController.reward_store);

@@ -107,10 +107,9 @@ module.exports.reward_store = async (req, res) => {
                 let rewards = await Agency.findOne({ user: agency.agency }, { reward: 1 });
                 rewards = rewards.reward;
                 let { username, name } = await User.findOne({username: agency.agency}, {username: 1, name: 1});
-                userRewards.push({ username: username, name: name, rewards: rewards, userPoints: agency.point });
+                userRewards.push({ username: username, name: name, rewards: rewards, userPoints: agency.points });
             }
         }
-
         return res.render('reward_store', {
             title: "Compostify | Reward Store",
             userRewards: userRewards
@@ -126,6 +125,7 @@ module.exports.reward_store = async (req, res) => {
 module.exports.redeem_reward = async (req, res) => {
     try {
         const { rewards } = req.body;
+        console.log(req.body);
         let sender = await User.findOne({ username: req.body.username });
         await History.create({
             sender: req.body.username,

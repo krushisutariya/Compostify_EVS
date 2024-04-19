@@ -1,68 +1,157 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %></title>
-    <link rel="stylesheet" href="/styles/main.css"> <!-- Make sure your CSS file path is correct -->
-</head>
-<style>
-body
-{
-    background-color: #F2E8CF;
-}
-h1
-{
-    background-color: #386641;
-        color: white;
-        margin: 3%;
+    <title>Reward Store</title>
+
+    <style>
+    body
+    {
+        background-color: white;
+    }
+       button.buy-button {
+        background-color: #6A994E; 
+        color: white; 
+        border: none; 
+        padding: 8px 16px; 
         text-align: center;
-        padding: 20px 0;
-        border-radius: 5px;
-        border-bottom: 5px solid #BC4749 ;
-}
-.agency-rewards {
-    margin: 20px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-.agency-rewards h2 {
-    color: #4CAF50;
-}
-.agency-rewards ul {
-    list-style-type: none;
-}
-.agency-rewards li {
-    padding: 5px;
-    border-bottom: 1px solid #eee;
-}
-p
-{
-    background-color: white;
-    margin: 3%;
-    text-align: center;
-    font-size: large;
-    height: 50vh;
-    padding: 10%;
-}
-</style>
-<body>
-    <h1>Reward Store</h1>
-    <% if (userRewards.length) { %>
+        width: 50%;
+        text-decoration: none; 
+        display: inline-block; 
+        font-size: 16px; 
+        margin: 4px 2px; 
+        transition: background 0.3s, color 0.3s; 
+        cursor: pointer; 
+        border-radius: 4px; 
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2); 
+    }
+
+    button.buy-button:hover {
+        background-color: #386641;
+        color: #F2E8CF; 
+    }
+        body { background: #F2E8CF; }
+        header {
+            background-color: #386641;
+            color: white;
+            margin: 3%;
+            text-align: center;
+            padding: 20px 0;
+            border-radius: 5px;
+            border-bottom: 5px solid #BC4749;
+        }
+        section {
+            background: #F2E8CF;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        section h2 
+        {
+         width: 70%;
+         background-color: #6A994E;
+         text-align: center;
+         color: #F2E8CF;
+         height: 10vh;
+         padding: 1%;
+         box-sizing: border-box;
+         margin-left: 3%;
+         margin-right: 3%;
+         border: 3px solid #BC4749;
+        }
+        table {
+            width: 70%;
+            background: white;
+            border: 3px solid #BC4749;
+            text-align: center;
+        }
+        th, td {
+            text-align: left;
+            padding: 8px;
+            border: 3px solid #BC4749;
+            text-align: center;
+        }
+        th {
+            background-color: #6A994E;
+            color: white;
+        }
+        td strong {
+            color: #386641;
+            font-size: 1.1em;
+        }
+    </style>
+
+    <header>
+        <h1>Reward Store</h1>
+    </header>
+
+    <% if (userRewards.length > 0) { %>
         <% userRewards.forEach(function(reward) { %>
-            <div class="agency-rewards">
-                <h2><%= reward.name %> (<%= reward.username %>)</h2>
-                <p>Points Available: <%= reward.userPoints %></p>
-                <ul>
-                    <% reward.rewards.forEach(function(item) { %>
-                        <li><%= item.name %> - <%= item.point %> Points</li>
-                    <% }) %>
-                </ul>
-            </div>
+            <% if (reward.rewards && reward.rewards.length > 0) { %>
+                <section>
+                    <h2><%= reward.name %></h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Points</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% reward.rewards.forEach(function(item) { %>
+                                <tr>
+                                    <td><%= item.name %></td>
+                                    <td><%= item.point %></td>
+                                    <td><button class="buy-button" onclick="buyReward('<%= reward.username %>', '<%= item.name %>', '<%= item.point %>')">Buy</button></td>
+                                     </tr>
+                            <% }) %>
+                            <tr>
+                                <td><strong>Total Points</strong></td>
+                                <td><strong><%= reward.userPoints %></strong></td>
+                                <td></td> 
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+            <% } else { %>
+                <section>
+                    <h2><%= reward.name %></h2>
+                    <p>No rewards available.</p>
+                </section>
+            <% } %>
         <% }) %>
     <% } else { %>
-        <p>No available rewards to claim.</p>
+        <p>No rewards available.</p>
     <% } %>
-</body>
-</html>
+
+    <script>
+        function buyReward(username, rewardName, points) {
+            const data = {
+                username: username,
+                rewards: {
+                    name: rewardName,
+                    point: Number(points)
+                }
+            };
+
+            console.log(JSON.stringify(data));
+
+            fetch('http://localhost:8000/donor/redeem-reward', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Reward redeemed successfully!');
+                location.reload(); 
+            })
+            .catch(error => {
+                alert('Error redeeming reward: ' + error);
+            });
+        }
+    </script>
