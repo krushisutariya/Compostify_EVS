@@ -1,3 +1,4 @@
+const axios=require('axios');
 const User = require("../models/user.js");
 const Points = require("../models/userPoints.js");
 const Agency = require("../models/compostAgency.js");
@@ -28,6 +29,10 @@ module.exports.nearby_agency = async (req, res) => {
             const apiKey = process.env.API_KEY;
 
             const startCoordinates = location;
+            const endCoordinates = user.location;
+            if (!endCoordinates) {
+                continue;
+            }
             const traffic = true;
 
             const tomtomApiEndpoint = 'https://api.tomtom.com/routing/1/calculateRoute/';
@@ -44,6 +49,7 @@ module.exports.nearby_agency = async (req, res) => {
                 if (distance < 10) {
                     user.distance = distance;
                     user.travelTime = travelTime;
+                    user.type=role;
                     await nearbyAgency.push(user);
                 }
             } else {
@@ -95,11 +101,13 @@ module.exports.reward_store = async (req, res) => {
         let agencies = await Points.findOne({ user: req.user.username }, { availablePoints: 1 }); 
         agencies = agencies.availablePoints;
         let userRewards = [];
-        for (let agency of agencies) {
-            let rewards = await Agency.findOne({ user: agency.agency }, { reward: 1 });
-            rewards = rewards.reward;
-            let { username, name } = await User.findOne({ username: agency.agency }, {username: 1, name: 1});
-            userRewards.push({ username: username, name: name, rewards: rewards, userPoints: agency.points });
+        if(agencies)
+        {
+            for (let agency of agencies) {
+                let rewards = await Agency.find({ user: agency.agency }, { reward: 1 });
+                let { username, name } = await User.findById(agency.agency, {username: 1, name: 1});
+                userRewards.push({ username: username, name: name, rewards: rewards, userPoints: agency.point });
+            }
         }
 
         return res.render('reward_store', {

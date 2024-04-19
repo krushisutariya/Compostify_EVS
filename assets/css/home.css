@@ -1,0 +1,203 @@
+/* Buttons */
+.btn-xl {
+    padding: 1.25rem 2.25rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 10rem;
+}
+
+/* Dividers */
+hr.divider {
+    height: 0.2rem;
+    max-width: 3.25rem;
+    margin: 1.5rem auto;
+    background-color: #f4623a; /* primary color */
+    opacity: 1;
+}
+
+hr.divider-light {
+    background-color: #ffffff; /* white */
+}
+
+/* Navbar */
+#mainNav {
+    box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1); /* $box-shadow */
+    background-color: #ffffff; /* white */
+    transition: background-color 0.2s ease;
+
+    .navbar-brand {
+        font-family: "Merriweather Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+        font-weight: 700; /* $font-weight-bold */
+        color: #343a40; /* $gray-900 */
+    }
+
+    .navbar-nav {
+        .nav-item {
+            .nav-link {
+                color: #6c757d; /* $gray-600 */
+                font-family: "Merriweather Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+                font-weight: 700; /* $font-weight-bold */
+                font-size: 0.9rem;
+                padding: 0.75rem 0;
+
+                &:hover,
+                &:active {
+                    color: #f4623a; /* $primary */
+                }
+
+                &.active {
+                    color: #f4623a !important; /* $primary */
+                }
+            }
+        }
+    }
+
+    @media (min-width: 992px) {
+        /* Base styling for the navbar - screen sizes greater than the large breakpoint */
+        box-shadow: none;
+        background-color: transparent;
+
+        .navbar-brand {
+            color: rgba(255, 255, 255, 0.7); /* fade-out($white, 0.3) */
+
+            &:hover {
+                color: #ffffff; /* $white */
+            }
+        }
+
+        .navbar-nav {
+            .nav-item {
+                .nav-link {
+                    color: rgba(255, 255, 255, 0.7); /* fade-out($white, 0.3) */
+                    padding: 0 1rem;
+
+                    &:hover {
+                        color: #ffffff; /* $white */
+                    }
+                }
+
+                &:last-child {
+                    .nav-link {
+                        padding-right: 0;
+                    }
+                }
+            }
+        }
+
+        /* Navbar styling applied when the page is scrolled */
+        &.navbar-shrink {
+            box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1); /* $box-shadow */
+            background-color: #ffffff; /* white */
+
+            .navbar-brand {
+                color: #343a40; /* $gray-900 */
+
+                &:hover {
+                    color: #f4623a; /* $primary */
+                }
+            }
+
+            .navbar-nav {
+                .nav-item {
+                    .nav-link {
+                        color: #343a40; /* $gray-900 */
+
+                        &:hover {
+                            color: #f4623a; /* $primary */
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+/* Masthead */
+header.masthead {
+    padding-top: 10rem;
+    padding-bottom: calc(10rem - 4.5rem); /* $navbar-height */
+
+    /* replace the masthead.jpg image in the /assets/img directory to change the image */
+    /* if the image name change, make sure to update the url path below! */
+
+    background: linear-gradient(to bottom, rgba(92, 77, 66, 0.2) 0%, rgba(92, 77, 66, 0.2) 100%), url("../assets/img/bg-masthead.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-size: cover;
+
+    h1 {
+        font-size: 2.25rem;
+    }
+
+    @media (min-width: 992px) {
+        height: 100vh;
+        min-height: 40rem;
+        padding-top: 4.5rem; /* $navbar-height */
+        padding-bottom: 0;
+
+        p {
+            font-size: 1.15rem;
+        }
+
+        h1 {
+            font-size: 3rem;
+        }
+    }
+
+    @media (min-width: 1200px) {
+        h1 {
+            font-size: 3.5rem;
+        }
+    }
+}
+
+/* Portfolio */
+#portfolio .container-fluid {
+    max-width: 1920px;
+}
+
+#portfolio .portfolio-box {
+    position: relative;
+    display: block;
+
+    .portfolio-box-caption {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+
+        width: 100%;
+        height: 100%;
+
+        position: absolute;
+        bottom: 0;
+
+        text-align: center;
+        opacity: 0;
+
+        color: #ffffff; /* $white */
+        background: rgba(244, 98, 58, 0.1); /* fade-out($primary, 0.1) */
+        transition: opacity 0.25s ease;
+        text-align: center;
+
+        .project-category {
+            font-family: "Merriweather Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .project-name {
+            font-size: 1.2rem;
+        }
+    }
+
+    &:hover {
+        .portfolio-box-caption {
+            opacity: 1;
+        }
+    }
+}
