@@ -27,22 +27,45 @@ module.exports.cofirm_supplies = async (req, res) => {
             { new: true }
           );
 
-          await Points.findOneAndUpdate(
-            { user: req.body.sender },
-            { 
-                $set: { user: req.body.sender }, 
-                $addToSet: { 
-                    availablePoints: { 
-                        agency: req.user.username,
-                        points: req.body.quantity * 10
-                    } 
-                } 
-            },
-            { 
-                upsert: true, 
-                new: true 
-            }
-        );
+          const existingPoints = await Points.findOne({
+            user: req.body.sender,
+            "availablePoints.agency": req.user.username
+        });
+
+        if (existingPoints) {
+            // If the document exists, update the points
+            await Points.findOneAndUpdate(
+                {
+                    user: req.body.sender,
+                    "availablePoints.agency": req.user.username
+                },
+                {
+                    $inc: { "availablePoints.$.points": req.body.quantity * 10 }
+                },
+                {
+                    new: true
+                }
+            );
+        } else {
+            // If the document does not exist, create a new entry
+            await Points.findOneAndUpdate(
+                {
+                    user: req.body.sender
+                },
+                {
+                    $addToSet: {
+                        availablePoints: {
+                            agency: req.user.username,
+                            points: req.body.quantity * 10
+                        }
+                    }
+                },
+                {
+                    upsert: true,
+                    new: true
+                }
+            );
+        }
 
         req.flash('success', 'Supply accepted!');
         return res.redirect('back');
