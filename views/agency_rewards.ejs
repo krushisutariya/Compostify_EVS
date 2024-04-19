@@ -1,0 +1,210 @@
+<style>
+         .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #F2E8CF; /* Modal content background color */
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 40%; /* Decreased width */
+            border-radius: 10px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Form CSS */
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 10px;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        button[type="submit"] {
+            padding: 10px 20px;
+            background-color: #6A994E; /* Button background color */
+            color: #FFFFFF;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #386641; /* Hover background color */
+        }
+
+        body {
+        background: #F2E8CF;
+        font-family: Arial, sans-serif;
+    }
+
+    h1 {
+            text-align: center;
+            margin-top: 20px; /* Added top margin */
+        }
+
+
+    table {
+        background: #A7C957;
+        border-collapse: separate;
+        border-radius: 10px;
+        overflow: hidden;
+        width: 800px;
+        margin: 30px auto;
+    }
+
+    th, td {
+        padding: 10px 15px;
+        text-align: left;
+    }
+
+     
+     
+    th {
+            background: rgb(6, 154, 45); /* Changed th color */
+            color: #F2E8CF;
+            font-weight: bold;
+            position: relative;
+        }
+
+    th:after {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.1));
+    }
+
+    tbody tr:nth-child(odd) td {
+        background-color: #386641;
+        color: #F2E8CF;
+    }
+
+    tbody tr:nth-child(even) td {
+        background-color: #6A994E;
+        color: #F2E8CF;
+    }
+
+    tbody tr:hover td {
+        background-color: #386641;
+        color: #F2E8CF;
+    }
+
+    .add-button {
+            background-color: #BC4749; /* Button background color */
+            color: #F2E8CF; /* Button text color */
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto;
+            font-size: 16px;
+        }
+
+        .add-button:hover {
+            background-color: #A7C957; /* Hover background color */
+        }
+
+</style>
+<body>
+    <h1>Rewards Table</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Point</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% rewards.forEach(reward => { %>
+                <tr>
+                    <td><%= reward.name %></td>
+                    <td><%= reward.point %></td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+
+    <button onclick="openModal()" class="add-button">Add Reward</button>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Add Reward</h2>
+            <form action="/agency/add-reward" method="POST">
+                <label for="rewardName">Reward Name:</label>
+                <input type="text" id="rewardName" name="name" required><br><br>
+                <label for="rewardPoints">Reward Points:</label>
+                <input type="number" id="rewardPoints" name="points" required><br><br>
+                <button type="submit">Add</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Get the modal
+        var modal = document.getElementById("myModal");
+
+        // Get the button that opens the modal
+        var btn = document.getElementById("myBtn");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks the button, open the modal
+        function openModal() {
+            modal.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        function closeModal() {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        };
+    </script>
