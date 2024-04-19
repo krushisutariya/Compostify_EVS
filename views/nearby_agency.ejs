@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compostify | Nearby Agency</title>
+    <link rel="stylesheet" type="text/css" href="./assets/css/nearby_agency.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+    body {
+        background-color: #F2E8CF !important;
+    }
+    .container {
+        max-width: 1000px;
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+        text-align: center;
+    }
+    h1 {
+        background-color: #386641;
+        color: white;
+        margin: 3%;
+        text-align: center;
+        padding: 20px 0;
+        border-radius: 5px;
+        border-bottom: 5px solid #BC4749 ;
+    }
+    table {
+        width: 100%;
+    }
+    th, td {
+        padding: 12px;
+        border: 3px solid #BC4749 !important;
+    }
+    th {
+        background-color: #6A994E  !important;
+        color: white  !important;
+    }
+    .table tbody tr:nth-child(even) {
+        background-color: #A7C957  !important;
+    }
+    .clickable-row:nth-child(even)
+    {
+        background-color: #A7C957  !important;
+    }
+    .clickable-row
+    {
+
+        cursor: pointer;
+    }
+    
+</style>
+</head>
+<body>
+    <h1>Nearby Agencies</h1>
+</hr>
+    <div class="container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Username</th>
+                    <th>Contact</th>
+                    <th>Distance (km)</th>
+                    <th>Travel Time (hrs)</th>
+                </tr>
+            </thead>
+         
+            <tbody>
+                <% nearbyAgency.forEach(function(agency) { %>
+                    <tr class="clickable-row" data-username="<%= agency.username %>" data-type="<%= agency.role %>">
+                        <td><%= agency.name %></td>
+                        <td><%= agency.username %></td>
+                        <td><%= agency.contact %></td>
+                        <td><%= agency.distance.toFixed(2) %></td>
+                        <td><%= agency.travelTime.toFixed(2) %></td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Donation Modal -->
+    <div class="modal fade" id="donationModal" tabindex="-1" aria-labelledby="donationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="donationModalLabel">Donate Supplies</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/donor/donate-supplies" method="post">
+                    <div class="modal-body">
+                        <input type="hidden" name="username" id="agencyUsername">
+                        <input type="hidden" name="type" id="agencyType">
+                        <div class="form-group">
+                            <label for="quantity">Quantity to donate:</label>
+                            <input type="number" class="form-control" id="quantity" name="quantity" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.clickable-row').click(function() {
+                var username = $(this).find('td:nth-child(2)').text(); 
+                var type = $(this).data('type'); 
+                $('#agencyUsername').val(username);
+                $('#agencyType').val(type);
+                $('#donationModal').modal('show');
+            });
+        });
+    </script>
+</body>
+</html>

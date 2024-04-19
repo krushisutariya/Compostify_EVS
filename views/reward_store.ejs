@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/styles/main.css"> <!-- Make sure your CSS file path is correct -->
+</head>
+<style>
+body
+{
+    background-color: #F2E8CF;
+}
+h1
+{
+    background-color: #386641;
+        color: white;
+        margin: 3%;
+        text-align: center;
+        padding: 20px 0;
+        border-radius: 5px;
+        border-bottom: 5px solid #BC4749 ;
+}
+.agency-rewards {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.agency-rewards h2 {
+    color: #4CAF50;
+}
+.agency-rewards ul {
+    list-style-type: none;
+}
+.agency-rewards li {
+    padding: 5px;
+    border-bottom: 1px solid #eee;
+}
+p
+{
+    background-color: white;
+    margin: 3%;
+    text-align: center;
+    font-size: large;
+    height: 50vh;
+    padding: 10%;
+}
+</style>
+<body>
+    <h1>Reward Store</h1>
+    <% if (userRewards.length) { %>
+        <% userRewards.forEach(function(reward) { %>
+            <div class="agency-rewards">
+                <h2><%= reward.name %> (<%= reward.username %>)</h2>
+                <p>Points Available: <%= reward.userPoints %></p>
+                <ul>
+                    <% reward.rewards.forEach(function(item) { %>
+                        <li><%= item.name %> - <%= item.point %> Points</li>
+                    <% }) %>
+                </ul>
+            </div>
+        <% }) %>
+    <% } else { %>
+        <p>No available rewards to claim.</p>
+    <% } %>
+</body>
+</html>
