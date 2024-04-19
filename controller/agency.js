@@ -23,19 +23,22 @@ module.exports.cofirm_supplies = async (req, res) => {
     try {
         await Transaction.findOneAndUpdate(
             { sender: req.body.sender, receiver: req.user.username, quantity: req.body.quantity },
-            { $set: { status: 'confirm' } },
+            { $set: { status: 'accepted' } },
             { new: true }
           );
 
-        let user = await User.findOne({username: req.body.username});
         await Points.findOneAndUpdate(
-            { user: user.id, "availablePoints.agency": req.user.id },
+            { user: req.body.sender },
             { 
-              $inc: { "availablePoints.$.points": req.body.quantity*10 },
-              $setOnInsert: { user: username },
+                $set: { user: req.body.sender }, // Set user
+                $setOnInsert: { "availablePoints.agency": req.user.username }, // Set agency if the document is inserted
+                $inc: { "availablePoints.points": req.body.quantity * 10 } // Increment points for specific agency
             },
-            { upsert: true, new: true }
-          );
+            { 
+                upsert: true, // Create new document if not found
+                new: true // Return updated document
+            }
+        );
 
         req.flash('success', 'Supply accepted!');
         return res.redirect('back');
@@ -81,7 +84,7 @@ module.exports.history = async (req, res) => {
 // Get the list of rewards by composit Agency
 module.exports.rewards = async (req, res) => {
     try {
-        let rewards = await Agency.find({ user: req.user.id }, { reward: 1 });
+        let rewards = await Agency.find({ user: req.user.username }, { reward: 1 });
         return res.render('agency_rewards', {
             title: "Compsostify | Rewards",
             rewards: rewards
@@ -96,9 +99,9 @@ module.exports.rewards = async (req, res) => {
 module.exports.add_reward = async (req, res) => {
     try {
         await Agency.findOneAndUpdate(
-            { user: req.user.id },
+            { user: req.user.username },
             { 
-              $addToSet: { rewards: { name: req.body.name, point: req.body.points } }
+              $addToSet: { rewards: { name: req.body.name, point: req.body.point } }
             },
             { upsert: true, new: true }
           );
