@@ -1,4 +1,13 @@
 /* Buttons */
+.text-lg-start
+{
+    background-color: #1f194c;
+    width: 100%;
+}
+.col-lg-6 a
+{
+   margin-left: 30%;
+}
 .btn-xl {
     padding: 1.25rem 2.25rem;
     font-size: 0.85rem;
@@ -6,6 +15,8 @@
     text-transform: uppercase;
     border: none;
     border-radius: 10rem;
+     z-index: 2 !important;
+    background-color: #228B22;
 }
 
 /* Dividers */
@@ -19,6 +30,143 @@ hr.divider {
 
 hr.divider-light {
     background-color: #ffffff; /* white */
+}
+
+
+/* Navbar */
+#mainNav {
+    box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1); /* $box-shadow */
+    background-color: #ffffff; /* white */
+    transition: background-color 0.2s ease;
+
+    .navbar-brand {
+        font-family: "Merriweather Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+        font-weight: 700; /* $font-weight-bold */
+        color: #343a40; /* $gray-900 */
+    }
+
+    .navbar-nav {
+        .nav-item {
+            .nav-link {
+                color: #6c757d; /* $gray-600 */
+                font-family: "Merriweather Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+                font-weight: 700; /* $font-weight-bold */
+                font-size: 0.9rem;
+                padding: 0.75rem 0;
+
+                &:hover,
+                &:active {
+                    color: #f4623a; /* $primary */
+                }
+
+                &.active {
+                    color: #f4623a !important; /* $primary */
+                }
+            }
+        }
+    }
+
+    @media (min-width: 992px) {
+        /* Base styling for the navbar - screen sizes greater than the large breakpoint */
+        box-shadow: none;
+        background-color: transparent;
+
+        .navbar-brand {
+            color: rgba(255, 255, 255, 0.7); /* fade-out($white, 0.3) */
+
+            &:hover {
+                color: #ffffff; /* $white */
+            }
+        }
+
+        .navbar-nav {
+            .nav-item {
+                .nav-link {
+                    color: rgba(255, 255, 255, 0.7); /* fade-out($white, 0.3) */
+                    padding: 0 1rem;
+
+                    &:hover {
+                        color: #ffffff; /* $white */
+                    }
+                }
+
+                &:last-child {
+                    .nav-link {
+                        padding-right: 0;
+                    }
+                }
+            }
+        }
+
+        /* Navbar styling applied when the page is scrolled */
+        &.navbar-shrink {
+            box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1); /* $box-shadow */
+            background-color: #ffffff; /* white */
+
+            .navbar-brand {
+                color: #343a40; /* $gray-900 */
+
+                &:hover {
+                    color: #f4623a; /* $primary */
+                }
+            }
+
+            .navbar-nav {
+                .nav-item {
+                    .nav-link {
+                        color: #343a40; /* $gray-900 */
+
+                        &:hover {
+                            color: #f4623a; /* $primary */
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+/* Masthead */
+header.masthead {
+    padding-top: 10rem;
+    padding-bottom: calc(10rem - 4.5rem); /* $navbar-height */
+    background: linear-gradient(to bottom, rgba(92, 77, 66, 0.5) 0%, rgba(92, 77, 66, 0.5) 100%), url("../images/back.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-size: cover;
+    z-index: -1;
+}
+
+.masthead .container {
+    height: 100%;
+}
+
+.masthead h1 {
+    font-size: 2.25rem;
+}
+
+.masthead p {
+    font-size: 1.15rem;
+}
+
+@media (min-width: 992px) {
+    .masthead {
+        height: 100vh;
+        min-height: 40rem;
+        padding-top: 4.5rem; /* $navbar-height */
+        padding-bottom: 0;
+    }
+
+    .masthead h1 {
+        font-size: 3rem;
+    }
+}
+
+@media (min-width: 1200px) {
+    .masthead h1 {
+        font-size: 3.5rem;
+    }
 }
 
 /* Portfolio */
@@ -68,3 +216,164 @@ hr.divider-light {
         }
     }
 }
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+  }
+  section {
+    height: auto;
+    width: 100%;
+    display: grid;
+    place-items: center;
+  }
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .column {
+    width: 100%;
+    padding: 0 1em 1em 1em;
+    text-align: center;
+  }
+  .card {
+    width: 100%;
+    height: 100%;
+    padding: 2em 1.5em;
+    background: linear-gradient(#ffffff 50%, #228B22 50%);
+    background-size: 100% 200%;
+    background-position: 0 2.5%;
+    border-radius: 5px;
+    box-shadow: 0 0 35px rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+    transition: 0.5s;
+  }
+  h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1f194c;
+    margin: 1em 0;
+  }
+  p {
+    color: #575a7b;
+    font-size: 15px;
+    line-height: 1.6;
+    letter-spacing: 0.03em;
+  }
+  .icon-wrapper {
+    background-color: #228B22;
+    position: relative;
+    margin: auto;
+    font-size: 30px;
+    height: 2.5em;
+    width: 2.5em;
+    color: #ffffff;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    transition: 0.5s;
+  }
+  .card:hover {
+    background-position: 0 100%;
+  }
+  .card:hover .icon-wrapper {
+    background-color: #ffffff;
+    color: #228B22;
+  }
+  .card:hover h3 {
+    color: #ffffff;
+  }
+  .card:hover p {
+    color: #f0f0f0;
+  }
+  @media screen and (min-width: 768px) {
+    section {
+      padding: 0 2em;
+    }
+    .column {
+      flex: 0 50%;
+      max-width: 50%;
+    }
+  }
+  @media screen and (min-width: 992px) {
+    section {
+      padding: 1em 3em;
+    }
+    .column {
+      flex: 0 0 45%;
+      max-width: 50%;
+    }
+  }
+
+  .container {
+     
+    display: flex;
+    justify-content: center;
+     
+  }
+  
+  .column {
+    margin: 0 40px; /* Adjust margin as needed */
+  }
+  
+  .card {
+    /* Your card styles */
+    background-color: green;
+  }
+  
+  
+  .btn-xl {
+    padding: 1.25rem 2.25rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 10rem;
+    z-index: 2; /* Ensure this element has a position property set for z-index to work */
+    position: relative; /* Add position property */
+}
+
+/* Adjusting the card container to have position property and a lower z-index */
+.card {
+    width: 100%;
+    height: 100%;
+    padding: 2em 1.5em;
+    background: linear-gradient(#ffffff 50%, #228B22 50%);
+    background-size: 100% 200%;
+    background-position: 0 2.5%;
+    border-radius: 5px;
+    box-shadow: 0 0 35px rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+    transition: 0.5s;
+    position: relative; /* Add position property */
+    z-index: 1; /* Lower z-index than the button */
+}
+
+.icon-wrapper {
+    background-color: #228B22;
+    position: relative;
+    margin: auto;
+    font-size: 30px;
+    height: 2.5em;
+    width: 2.5em;
+    color: #ffffff;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    transition: 0.5s;
+}
+
+/* Adjusting container and column styles */
+.container {
+    display: flex;
+    justify-content: center;
+}
+
+.column {
+    margin: 0 40px; /* Adjust margin as needed */
+    position: relative; /* Add position property */
+}
+
+
