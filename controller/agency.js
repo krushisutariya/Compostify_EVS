@@ -21,6 +21,7 @@ module.exports.queue = async (req, res) => {
 // Confirm the supplies request sent by a user
 module.exports.cofirm_supplies = async (req, res) => {
     try {
+        console.log(req.body);
         await Transaction.findOneAndUpdate(
             { sender: req.body.sender, receiver: req.user.username, quantity: req.body.quantity },
             { $set: { status: 'accepted' } },

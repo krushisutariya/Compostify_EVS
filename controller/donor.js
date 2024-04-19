@@ -148,8 +148,7 @@ module.exports.redeem_reward = async (req, res) => {
 
         redeemReward(sender, req.user, rewards);
 
-        req.flash('success', 'Reward redeemed successfully!');
-        return res.redirect('back');
+        return res.status(200).json({ message: 'Reward redeemed successfully!'});
 
     } catch (error) {
         console.log('Error: ', error);

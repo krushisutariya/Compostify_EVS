@@ -19,10 +19,13 @@ const passportJWT = require('./config/passport-jwt-strategy');
 const MongoStore = require('connect-mongo');
 const flash = require('connect-flash');
 const customMware = require('./config/flash_middleware');
+const bodyParser = require('body-parser');
 
 // MIDDLEWARES
 app.use('/', httpsRedirect());
 app.use(express.urlencoded());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static('./assets'));
 app.use(expressLayouts);

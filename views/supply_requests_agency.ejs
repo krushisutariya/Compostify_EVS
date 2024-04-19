@@ -96,8 +96,8 @@ const requestsn = [
     <h1>Quantity: <%= request.quantity %></h1>
     
     <div class="button-container">
-      <button class="accept-btn" data-id="<%= request.id %>">Accept</button>
-      <button class="reject-btn" data-id="<%= request.id %>" >Reject</button>
+      <button class="accept-btn" data-id="<%= request.id %>" onclick="handleClick('<%= request.sender %>','<%= request.quantity %>')">Accept</button>
+      <button class="reject-btn" data-id="<%= request.id %> "onclick="handleClick('<%= request.sender %>','<%= request.quantity %>')">Reject</button>
     </div>
   </div>
 
@@ -106,37 +106,30 @@ const requestsn = [
 
 <script>
   // JavaScript code for handling button clicks
-  document.querySelectorAll('.accept-btn').forEach(button => {
-    button.addEventListener('click', function() {
-      const requestId = this.getAttribute('data-id');
-      const request = requests.find(req => req.id === parseInt(requestId));
-      const data = { sender: request.sender, quantity: request.quantity };
-      
-      fetch('http://localhost:8000/confirm-supplies', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      })
-      .then(response => {
-        // Handle response
-        console.log('Accept request successful');
-      })
-      .catch(error => {
-        // Handle error
-        console.error('Error accepting request:', error);
-      });
-    });
-  });
+  function handleClick(sender, quantity) {
+  let data = { sender: sender, quantity: Number(quantity) };
+  console.log(data);
 
-  document.querySelectorAll('.reject-btn').forEach(button => {
-    button.addEventListener('click', function() {
-      const requestId = this.getAttribute('data-id');
-      const request = requestsn.find(req => req.id === parseInt(requestId));
-      const data = { sender: request.sender, quantity: request.quantity };
-      
-      fetch('http://localhost:8000/reject-supplies', {
+  fetch('http://localhost:8000/agency/confirm-supplies', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+  })
+  .then(response => {
+      // Handle response
+      alert('Accept request successful');
+      window.location.reload();
+  })
+  .catch(error => {
+      // Handle error
+      console.error('Error accepting request:', error);
+  });
+}
+function handleC(request){
+  const data = { sender: request.sender, quantity: request.quantity };
+  fetch('http://localhost:8000/agency/reject-supplies', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -145,14 +138,17 @@ const requestsn = [
       })
       .then(response => {
         // Handle response
-        console.log('Reject request successful');
+        alert('Reject request successful');
+        window.location.reload();
+
       })
       .catch(error => {
         // Handle error
         console.error('Error rejecting request:', error);
       });
-    });
-  });
+}
+
+  
   function darkenCard(element) {
   element.classList.add('dark-card'); 
   const h1Elements = element.querySelectorAll('h1');
