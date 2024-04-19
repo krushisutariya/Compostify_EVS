@@ -27,16 +27,20 @@ module.exports.cofirm_supplies = async (req, res) => {
             { new: true }
           );
 
-        await Points.findOneAndUpdate(
+          await Points.findOneAndUpdate(
             { user: req.body.sender },
             { 
-                $set: { user: req.body.sender }, // Set user
-                $setOnInsert: { "availablePoints.agency": req.user.username }, // Set agency if the document is inserted
-                $inc: { "availablePoints.points": req.body.quantity * 10 } // Increment points for specific agency
+                $set: { user: req.body.sender }, 
+                $addToSet: { 
+                    availablePoints: { 
+                        agency: req.user.username,
+                        points: req.body.quantity * 10
+                    } 
+                } 
             },
             { 
-                upsert: true, // Create new document if not found
-                new: true // Return updated document
+                upsert: true, 
+                new: true 
             }
         );
 
@@ -70,11 +74,13 @@ module.exports.reject_reward = async (req, res) => {
 // Get the history of rewards redeemed by different users
 module.exports.history = async (req, res) => {
     try {
-        let history = History.findOne({ sender: req.user.username });
-        return res.render('agency_history', {
-            title: "Compsostify | Reward History",
-            history: history
-        });
+        let history = await History.find({ sender: req.user.username }, {receiver: 1, reward: 1, createdAt: 1});
+        if (history) {
+            return res.render('agency_history', {
+                title: "Compsostify | Reward History",
+                history: history
+            });
+        }
     } catch (error) {
         console.log('Error: ', error.message);
         return res.redirect('back');
@@ -84,7 +90,12 @@ module.exports.history = async (req, res) => {
 // Get the list of rewards by composit Agency
 module.exports.rewards = async (req, res) => {
     try {
-        let rewards = await Agency.find({ user: req.user.username }, { reward: 1 });
+        let rewards = await Agency.findOne({ user: req.user.username }, { reward: 1 });
+        if (!rewards) {
+            rewards = [];
+        } else {
+            rewards = rewards.reward;
+        }
         return res.render('agency_rewards', {
             title: "Compsostify | Rewards",
             rewards: rewards
@@ -101,7 +112,7 @@ module.exports.add_reward = async (req, res) => {
         await Agency.findOneAndUpdate(
             { user: req.user.username },
             { 
-              $addToSet: { rewards: { name: req.body.name, point: req.body.point } }
+              $addToSet: { reward: { name: req.body.name, point: req.body.point } }
             },
             { upsert: true, new: true }
           );

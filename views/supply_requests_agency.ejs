@@ -1,0 +1,171 @@
+<style>
+    h1 {
+            text-align: center;
+            margin: 20px ; /* Added top margin */
+
+        }
+    body {
+        background: #F2E8CF;
+        font-family: Arial, sans-serif;
+    }
+.container {
+    max-width: 60%;
+    margin:  auto 100px;
+    padding: 20px 20%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #F2E8CF; /* Changed background color */
+}
+
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border: 2px solid #A7C957;
+    border-radius: 5px;
+   
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: box-shadow 0.3s;
+    background: #f0f6ff;
+    color: white;
+}
+.dark-card {
+    background-color:rgb( 56, 102, 65);
+    color: white;
+}
+.card-content {
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+}
+.card h1 {
+    margin: 10px;
+    font-size: medium;
+    border: 10px solid rgb(90, 207, 90);
+    border-radius: 10px;
+    background-color: rgb(90, 207, 90);
+}
+.button-container {
+    margin-left: auto;
+}
+.button-container button {
+    margin-left: 10px;
+}
+.request-container {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #F2E8CF; /* Changed background color */
+}
+button {
+    padding: 10px 20px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+.accept-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+}
+.reject-btn {
+    background-color: #f44336;
+    color: white;
+    border: none;
+}
+</style>
+
+   <h1>Pending Requests</h1>
+  
+  <%
+  // Generate dummy data for requests variable
+  const requestsn = [
+    { id: 1, sender: 'John Doe', quantity: 5, points: 100, status: 'Pending' },
+    { id: 2, sender: 'Jane Smith', quantity: 3, points: 50, status: 'Approved' },
+    { id: 3, sender: 'Alice Johnson', quantity: 8, points: 150, status: 'Pending' },
+    // Add more dummy data as needed
+  ];
+  %>
+  <div id="container">
+  <% requests.forEach((request) => { %>
+   
+    <div id="<%= request.id %>" class="card" onmouseover="darkenCard(this)" onmouseout="lightenCard(this)">
+        
+      <h1>Sender: <%= request.sender %></h1>
+      <h1>Quantity: <%= request.quantity %></h1>
+     
+    </div>
+
+  <% }) %>
+</div>
+  
+  <script>
+    // JavaScript code for handling button clicks
+    document.querySelectorAll('.accept-btn').forEach(button => {
+      button.addEventListener('click', function() {
+        const requestId = this.getAttribute('data-id');
+        const request = requestsn.find(req => req.id === parseInt(requestId));
+        const data = { sender: request.sender, quantity: request.quantity };
+        
+        fetch('http://localhost:8000/confirm-supplies', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        })
+        .then(response => {
+          // Handle response
+          console.log('Accept request successful');
+        })
+        .catch(error => {
+          // Handle error
+          console.error('Error accepting request:', error);
+        });
+      });
+    });
+  
+    document.querySelectorAll('.reject-btn').forEach(button => {
+      button.addEventListener('click', function() {
+        const requestId = this.getAttribute('data-id');
+        const request = requestsn.find(req => req.id === parseInt(requestId));
+        const data = { sender: request.sender, quantity: request.quantity };
+        
+        fetch('http://localhost:8000/reject-supplies', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        })
+        .then(response => {
+          // Handle response
+          console.log('Reject request successful');
+        })
+        .catch(error => {
+          // Handle error
+          console.error('Error rejecting request:', error);
+        });
+      });
+    });
+    function darkenCard(element) {
+    element.classList.add('dark-card'); 
+    const h1Elements = element.querySelectorAll('h1');
+    h1Elements.forEach(h1 => {
+        h1.style.color = 'rgb(242, 232, 207)';
+    });
+  }
+
+  function lightenCard(element) {
+    element.classList.remove('dark-card'); 
+    const h1Elements = element.querySelectorAll('h1');
+    h1Elements.forEach(h1 => {
+        h1.style.color = 'white';
+    });
+    
+  }
+  </script>

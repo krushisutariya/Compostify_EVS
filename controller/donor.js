@@ -1,4 +1,4 @@
-const axios=require('axios');
+const axios = require('axios');
 const User = require("../models/user.js");
 const Points = require("../models/userPoints.js");
 const Agency = require("../models/compostAgency.js");
@@ -104,8 +104,9 @@ module.exports.reward_store = async (req, res) => {
         if(agencies)
         {
             for (let agency of agencies) {
-                let rewards = await Agency.find({ user: agency.agency }, { reward: 1 });
-                let { username, name } = await User.findById(agency.agency, {username: 1, name: 1});
+                let rewards = await Agency.findOne({ user: agency.agency }, { reward: 1 });
+                rewards = rewards.reward;
+                let { username, name } = await User.findOne({username: agency.agency}, {username: 1, name: 1});
                 userRewards.push({ username: username, name: name, rewards: rewards, userPoints: agency.point });
             }
         }
@@ -124,21 +125,28 @@ module.exports.reward_store = async (req, res) => {
 // Reedem the reward and subtract the money
 module.exports.redeem_reward = async (req, res) => {
     try {
-        const { reward } = req.body;
+        const { rewards } = req.body;
         let sender = await User.findOne({ username: req.body.username });
         await History.create({
             sender: req.body.username,
             receiver: req.user.username,
-            reward: reward
+            reward: rewards
         });
     
         await Points.findOneAndUpdate(
-            { user: req.body.user.id, "reward.agency": sender.id },
-            { $set: { "reward.$.points": -reward.point } },
-            { new: true }
-          );
+            { 
+                user: req.user.username,
+            },
+            { 
+                $inc: { "availablePoints.$[elem].points": -rewards.point },
+            },
+            { 
+                new: true,
+                arrayFilters: [{ "elem.agency": req.body.username }],
+            }
+        );
 
-        redeemReward(sender, req.user, reward);
+        redeemReward(sender, req.user, rewards);
 
         req.flash('success', 'Reward redeemed successfully!');
         return res.redirect('back');
