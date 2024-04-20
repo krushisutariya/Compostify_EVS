@@ -97,7 +97,7 @@ const requestsn = [
     
     <div class="button-container">
       <button class="accept-btn" data-id="<%= request.id %>" onclick="handleClick('<%= request.sender %>','<%= request.quantity %>')">Accept</button>
-      <button class="reject-btn" data-id="<%= request.id %> "onclick="handleClick('<%= request.sender %>','<%= request.quantity %>')">Reject</button>
+      <button class="reject-btn" data-id="<%= request.id %> "onclick="handleC('<%= request.sender %>','<%= request.quantity %>')">Reject</button>
     </div>
   </div>
 
@@ -127,9 +127,9 @@ const requestsn = [
       console.error('Error accepting request:', error);
   });
 }
-function handleC(request){
-  const data = { sender: request.sender, quantity: request.quantity };
-  fetch('http://localhost:8000/agency/reject-supplies', {
+function handleC(sender, quantity){
+  const data = { sender: sender, quantity: Number(quantity) };
+  fetch('http://localhost:8000/agency/reject-request', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

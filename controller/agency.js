@@ -23,7 +23,7 @@ module.exports.cofirm_supplies = async (req, res) => {
     try {
         console.log(req.body);
         await Transaction.findOneAndUpdate(
-            { sender: req.body.sender, receiver: req.user.username, quantity: req.body.quantity },
+            { sender: req.body.sender, receiver: req.user.username, quantity: req.body.quantity, status: 'pending' },
             { $set: { status: 'accepted' } },
             { new: true }
           );
