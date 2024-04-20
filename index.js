@@ -31,7 +31,7 @@ app.use('/', httpsRedirect());
 corsOptions = {
     origin: 'https://compostifyevs-production.up.railway.app',
 }
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.static('./assets'));
 app.use(expressLayouts);
 app.set('layout extractStyles', true);
