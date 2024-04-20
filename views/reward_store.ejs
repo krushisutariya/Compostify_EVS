@@ -57,11 +57,25 @@
          margin-left: 3%;
          margin-right: 3%;
          border: 3px solid #BC4749;
-    
         }
+        .buy-button {
+        padding: 8px 16px;
+        background-color: green;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .buy-button:disabled {
+        background-color: gray;
+        color: #F2E8CF;
+        cursor: not-allowed;
+        opacity: 0.5;
+    }
         table {
             width: 70%;
-            background: white;
+           
             border: 3px solid #BC4749;
             text-align: center;
         }
@@ -103,13 +117,15 @@
                                 <tr>
                                     <td><%= item.name %></td>
                                     <td><%= item.point %></td>
-                                    <td><button class="buy-button" onclick="buyReward('<%= reward.username %>', '<%= item.name %>', '<%= item.point %>')">Buy</button></td>
-                                     </tr>
+                                    <td>
+                                        <button class="buy-button" data-reward-point="<%= item.point %>" <% if (reward.userPoints < item.point) { %>disabled<% } %> onclick="buyReward('<%= reward.username %>', '<%= item.name %>', <%= item.point %>, '<%= reward.userPoints %>')">Buy</button>
+                                    </td>
+                                </tr>
                             <% }) %>
                             <tr>
                                 <td><strong>Total Points</strong></td>
-                                <td><strong><%= reward.userPoints %></strong></td>
-                                <td></td> 
+                                <td><strong id="userPoints"><%= reward.userPoints %></strong></td>
+                                <td></td>
                             </tr>
                         </tbody>
                     </table>
@@ -124,33 +140,58 @@
     <% } else { %>
         <p>No rewards available.</p>
     <% } %>
-
+           
     <script>
-        function buyReward(username, rewardName, points) {
-            const data = {
-                username: username,
-                rewards: {
-                    name: rewardName,
-                    point: Number(points)
-                }
-            };
-
-            console.log(JSON.stringify(data));
-
-            fetch('http://localhost:8000/donor/redeem-reward', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-            .then(response => response.json())
-            .then(data => {
-                alert('Reward redeemed successfully!');
-                location.reload(); 
-            })
-            .catch(error => {
-                alert('Error redeeming reward: ' + error);
-            });
+        function buyReward(username, rewardName, points, userPoints) {
+    if (userPoints >= points) {
+        const data = {
+            username: username,
+            rewards: {
+                name: rewardName,
+                point: Number(points)
+            }
+        };
+        function updateButtons() {
+    const currentPoints = Number(document.getElementById('userPoints').textContent);
+    const buttons = document.querySelectorAll('.buy-button');
+    
+    buttons.forEach(button => {
+        const rewardPoint = Number(button.getAttribute('data-reward-point'));
+        if (currentPoints >= rewardPoint) {
+            button.disabled = false;
+        } else {
+            button.disabled = true;
         }
+    });
+}
+
+function increaseUserPoints(pointsEarned) {
+    const pointsDisplay = document.getElementById('userPoints');
+    let currentPoints = Number(pointsDisplay.textContent);
+    currentPoints += pointsEarned;
+    pointsDisplay.textContent = currentPoints;
+    updateButtons();
+}
+        console.log(JSON.stringify(data));
+
+        fetch('http://localhost:8000/donor/redeem-reward', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert('Reward redeemed successfully!');
+            location.reload(); 
+        })
+        .catch(error => {
+            alert('Error redeeming reward: ' + error);
+        });
+    } else {
+        alert('Not enough points to redeem this reward.');
+    }
+}
+
     </script>
