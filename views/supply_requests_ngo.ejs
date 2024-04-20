@@ -5,7 +5,7 @@
 
         }
     
-.container {
+.ngo-container {
     max-width: 60%;
     margin:  auto 100px;
     padding: 20px 20%;
@@ -15,6 +15,14 @@
     background-color: #F2E8CF; /* Changed background color */
 }
 
+#ngo-container {
+    margin-bottom: 50px;
+    width: 80%;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    padding: 20px;
+}
 .card {
     position: relative;
     display: flex;
@@ -87,7 +95,7 @@ button {
     // Add more dummy data as needed
   ];
   %>
-  <div id="container">
+  <div id="ngo-container">
   <% requests.forEach((request) => { %>
    
     <div id="<%= request.id %>" class="card" onmouseover="darkenCard(this)" onmouseout="lightenCard(this)">

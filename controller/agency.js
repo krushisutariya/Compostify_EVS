@@ -157,7 +157,7 @@ module.exports.delete_reward = async (req, res) => {
 
         // Find and update the user's reward array to remove the specified reward
         await Agency.findOneAndUpdate(
-            { user: req.user.id },
+            { user: req.user.username },
             { 
               $pull: { reward: { name: name, point: point } }
             },
