@@ -29,7 +29,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use('/', httpsRedirect());
 corsOptions = {
-    origin: 'https://http://compostifyevs-production.up.railway.app',
+    origin: 'https://compostifyevs-production.up.railway.app',
 }
 app.use(cors());
 app.use(express.static('./assets'));
