@@ -50,9 +50,7 @@ Compostify is a revolutionary platform designed to streamline waste management p
 - MongoDB
 - Node.js
 - Express.js
-- ReactJS
-- Redux
-- Material UI
+- EJS
 - Bootstrap
 
 
@@ -78,32 +76,16 @@ Compostify is a revolutionary platform designed to streamline waste management p
   ▪ *Reward store for Users to redeem Rewards*
   ![Reward Store](assets/images/user_rewards.png)
 
-### Specific Use Case Illustrations
-
-   🟢 *Community Events and Restaurants with Surplus Food*
-   <br>
-    -Efficiently connect surplus food producers with NGOs and compost agencies to minimize wastage.
-    ![Community Events and Restaurants](frontend/public/image/community_events.jpg)
-
-   🟢 *Govt. Scheme "Madhyan Bhojan" Surplus Food*
-   <br>
-     -Facilitate redistribution of surplus food from government schemes to other needy organizations.
-    ![Madhyan Bhojan Scheme](frontend/public/image/madhyahan_bhojan.webp)
-
-   🟢 *Vegetable Market*
-   <br>
-     -Manage rotten vegetables by directing them to compost agencies for proper disposal.
-    ![Vegetable Market](frontend/public/image/vegetable_market.jpg)
 
 <a name="team"></a>
 
 ## Team 
 1. Dharmesh Kota
-2. Manoj Dhundhalva
-3. Devang Vaghani
-4. Rhythm Panchal
-5. Jenil Goswami
-6. Jeet Patel
+2. Krushi Sutariya
+3. Aditya Patel
+4. Rishit Unadkat
+5. Jay Sabalpara
+6. Bhavya Boda
 
 🌱💚Together, let's compostify our world for a greener future!💚🌱
 
