@@ -30,7 +30,9 @@ module.exports.nearby_agency = async (req, res) => {
 
             const startCoordinates = location;
             const endCoordinates = user.location;
+            console.log(endCoordinates);
             if (!endCoordinates) {
+                console.log('Entered');
                 continue;
             }
             const traffic = true;
@@ -45,20 +47,20 @@ module.exports.nearby_agency = async (req, res) => {
             if (route) {
                 const distance = route.summary.lengthInMeters / 1000; // in km
                 const travelTime = route.summary.travelTimeInSeconds / 3600; // in hrs
-
                 if (distance < 10) {
                     user.distance = distance;
                     user.travelTime = travelTime;
                     user.type=role;
-                    await nearbyAgency.push(user);
+                    nearbyAgency.push(user);
                 }
             } else {
                 console.error('No route found.');
             }
         }
+        console.log(nearbyAgency);
     
         return res.render('nearby_agency', {
-            title: "Compostify | Nearby Agency",
+            title: "Compostify | Nearby Agency/NGO",
             nearbyAgency: nearbyAgency
         });
 

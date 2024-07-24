@@ -17,6 +17,7 @@ router.get('/profile', passport.checkAuthentication, controller.profile);
 router.post('/update-profile', passport.checkAuthentication, controller.update_profile);
 router.get('/guidelines', controller.guidelines);
 router.get('/about-us', controller.about_us)
+router.get('/contact',  controller.contact);
 router.get('/getTomTomApiKey', passport.checkAuthentication, (req, res) => {
     return res.status(200).json({ message: 'Api key sent successfully!', apiKey: process.env.API_KEY });
 });

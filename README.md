@@ -65,7 +65,7 @@ Compostify is a revolutionary platform designed to streamline waste management p
   ![User Login](assets/images/login.png)
 
   ▪ *Nearby Compost Agencies/NGOs*
-  ![Nearby Compost Agencies/NGOs](assets/images/nearby_composte_agency.png)
+  ![Nearby Compost Agencies/NGOs](assets/images/nearby_agency.png)
 
    ▪ *Chatbot Assistance*
   ![Chatbot Assistance](assets/images/chatbot.png)

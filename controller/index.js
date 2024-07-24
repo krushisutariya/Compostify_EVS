@@ -102,4 +102,11 @@ module.exports.about_us = (req, res) => {
     return res.render('about_us', {
         title: 'Compostify | About Us'
     });
-}
+};
+
+// Render the Contact page
+module.exports.contact = (req, res) => {
+    return res.render('contact', {
+        title: 'Compostify | Contact'
+    });
+};
